@@ -37,6 +37,7 @@ import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.trellmor.berrymotes.EmoteSettings;
@@ -89,7 +90,7 @@ public class SettingsFragment extends PreferenceFragment
 		onSharedPreferenceChanged(null, MainActivity.KEY_SERVER);
 
 
-		if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+		if (Build.VERSION.SDK_INT <= 29 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
 			//We already asked at app start to enable storage permission, so shouldShowRequestPermissionRationale returns only false,
 			//if never again was selected
 			if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -246,9 +247,11 @@ public class SettingsFragment extends PreferenceFragment
 		}
 
 		private void requestStoragePermission() {
-			ActivityCompat.requestPermissions(getActivity(),
-					new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
-					SettingsActivity.PERMISSION_REQUEST_EXTERNAL_STORAGE);
+			if (Build.VERSION.SDK_INT <= 29) {
+				ActivityCompat.requestPermissions(getActivity(),
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+						SettingsActivity.PERMISSION_REQUEST_EXTERNAL_STORAGE);
+			}
 		}
 	};
 }

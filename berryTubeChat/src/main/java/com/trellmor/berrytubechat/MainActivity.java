@@ -26,6 +26,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -265,9 +266,11 @@ public class MainActivity extends AppCompatActivity {
 
 	private void requestStoragePermission()
 	{
-		ActivityCompat.requestPermissions(this,
-				new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
-				PERMISSION_REQUEST_EXTERNAL_STORAGE);
+		if (Build.VERSION.SDK_INT <= 29) {
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+					PERMISSION_REQUEST_EXTERNAL_STORAGE);
+		}
 	}
 
 	@Override
