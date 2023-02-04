@@ -360,6 +360,8 @@ public class ChatActivity extends AppCompatActivity {
 
 	@Override
 	protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
 		if (resultCode != RESULT_OK) {
 			return;
 		}
@@ -488,8 +490,11 @@ public class ChatActivity extends AppCompatActivity {
 					| Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
 					| Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-			mNotification.setContentIntent(PendingIntent.getActivity(this, 0,
-					intent, PendingIntent.FLAG_UPDATE_CURRENT));
+			int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+				flags |= PendingIntent.FLAG_IMMUTABLE;
+			}
+			mNotification.setContentIntent(PendingIntent.getActivity(this, 0, intent, flags));
 
 			String squee = settings.getString(MainActivity.KEY_SQUEE_RINGTONE, null);
 			if (!"".equals(squee)) {
@@ -814,8 +819,11 @@ public class ChatActivity extends AppCompatActivity {
 							| Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
 							| Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-					noti.setContentIntent(PendingIntent.getActivity(this, 0,
-							intent, PendingIntent.FLAG_UPDATE_CURRENT));
+					int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+						flags |= PendingIntent.FLAG_IMMUTABLE;
+					}
+					noti.setContentIntent(PendingIntent.getActivity(this, 0, intent, flags));
 					if ("".equals(mServer)) {
 						mBinder.getService().connect(mUsername, mPassword, noti);
 					} else {

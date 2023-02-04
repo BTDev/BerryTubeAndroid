@@ -33,7 +33,8 @@
         android:theme="@style/Theme.BerryTubeChat">
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -58,7 +59,8 @@
 
         <activity
             android:name=".IgnoredUsersActivity"
-            android:label="@string/title_activity_ignoredusers">
+            android:label="@string/title_activity_ignoredusers"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.trellmor.berrytubechat.IgnoredUsers"/>
                 <category android:name="android.intent.category.DEFAULT"/>
